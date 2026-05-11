@@ -231,3 +231,91 @@ tbody tr:nth-child(even):not(.row-normal):not(.row-alert) {
     padding: 0;
   }
 }
+/* Additional styles for upgraded App.js */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: white;
+  text-shadow: 0 0 1px rgba(0,0,0,0.2);
+}
+
+.refresh-btn {
+  background: #2c7da0;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.refresh-btn:hover {
+  background: #1f5068;
+}
+
+.refresh-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+.empty-chart, .empty-table {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+  font-style: italic;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.last-updated {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.custom-tooltip {
+  background: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-left: 4px solid #2c7da0;
+}
+
+.tooltip-time {
+  margin: 0 0 4px;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.tooltip-rr {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.tooltip-status {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
