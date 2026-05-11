@@ -12,6 +12,8 @@ import {
 import { API_BASE_URL } from "./config";
 import "./App.css";
 
+console.log("API_BASE_URL:", API_BASE_URL);
+
 function App() {
   const [data, setData] = useState([]);
   const [lastAlert, setLastAlert] = useState(null);
