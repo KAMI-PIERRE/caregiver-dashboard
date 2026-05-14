@@ -1,12 +1,21 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Layout({ children }) {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
+
+  const isLoggedIn = !!localStorage.getItem('token');
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -51,6 +60,16 @@ function Layout({ children }) {
           >
             Admin
           </Button>
+          {isLoggedIn && (
+            <Button
+              color="inherit"
+              onClick={handleLogout}
+              startIcon={<LogoutIcon />}
+              sx={{ textTransform: 'none', ml: 2 }}
+            >
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <Box sx={{ p: 3 }}>

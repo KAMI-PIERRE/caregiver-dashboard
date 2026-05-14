@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import {
   LineChart,
@@ -26,6 +27,7 @@ import {
   Paper,
 } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { API_BASE_URL } from "./config";
 import "./App.css";
 
@@ -66,6 +68,12 @@ function Dashboard() {
   const [lastAlert, setLastAlert] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
   const [lastUpdated, setLastUpdated] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
 

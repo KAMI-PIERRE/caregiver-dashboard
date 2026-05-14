@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   Container,
@@ -25,6 +26,7 @@ import {
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { API_BASE_URL } from './config';
 import './App.css';
 
@@ -37,6 +39,12 @@ function AdminDashboard() {
   const [severity, setSeverity] = useState('success');
   const [stats, setStats] = useState({});
   const [logs, setLogs] = useState([]);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
 
   useEffect(() => {
     fetchPatients();

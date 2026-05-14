@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   Container,
@@ -12,7 +13,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Box,
+  Button,
 } from '@mui/material';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { API_BASE_URL } from './config';
 import './App.css';
 
@@ -30,8 +34,14 @@ function PatientDashboard() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [latestStatus, setLatestStatus] = useState(null);
+  const navigate = useNavigate();
 
   const patientId = localStorage.getItem('username');
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate('/login');
+  };
 
   useEffect(() => {
     const fetchPatientData = async () => {
