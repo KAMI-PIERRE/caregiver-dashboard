@@ -33,6 +33,9 @@ import './App.css';
 function AdminDashboard() {
   const [patients, setPatients] = useState([]);
   const [caregivers, setCaregivers] = useState([]);
+  const [patientIds, setPatientIds] = useState([]);
+  const [patientNames, setPatientNames] = useState([]);
+  const [caregiverNames, setCaregiverNames] = useState([]);
   const [patientForm, setPatientForm] = useState({ patient_id: '', name: '' });
   const [assignForm, setAssignForm] = useState({ patient_id: '', caregiver_id: '' });
   const [message, setMessage] = useState('');
@@ -49,6 +52,9 @@ function AdminDashboard() {
   useEffect(() => {
     fetchPatients();
     fetchCaregivers();
+    fetchPatientIds();
+    fetchPatientNames();
+    fetchCaregiverNames();
     fetchStats();
     fetchLogs();
   }, []);
@@ -86,6 +92,33 @@ function AdminDashboard() {
       setLogs(response.data);
     } catch (error) {
       console.error('Error fetching logs:', error);
+    }
+  };
+
+  const fetchPatientIds = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/breathing-records/patient-ids`);
+      setPatientIds(response.data);
+    } catch (error) {
+      console.error('Error fetching patient IDs:', error);
+    }
+  };
+
+  const fetchPatientNames = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/patients/usernames`);
+      setPatientNames(response.data);
+    } catch (error) {
+      console.error('Error fetching patient names:', error);
+    }
+  };
+
+  const fetchCaregiverNames = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/caregivers/usernames`);
+      setCaregiverNames(response.data);
+    } catch (error) {
+      console.error('Error fetching caregiver names:', error);
     }
   };
 
@@ -191,22 +224,34 @@ function AdminDashboard() {
               <Typography variant="h6">Register Patient</Typography>
             </Box>
             <form onSubmit={handleRegisterPatient}>
-              <TextField
-                fullWidth
-                label="Patient ID"
-                value={patientForm.patient_id}
-                onChange={(e) => setPatientForm({ ...patientForm, patient_id: e.target.value })}
-                required
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                fullWidth
-                label="Name"
-                value={patientForm.name}
-                onChange={(e) => setPatientForm({ ...patientForm, name: e.target.value })}
-                required
-                sx={{ mb: 2 }}
-              />
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <InputLabel>Patient ID (from Breathing Records)</InputLabel>
+                <Select
+                  value={patientForm.patient_id}
+                  onChange={(e) => setPatientForm({ ...patientForm, patient_id: e.target.value })}
+                  required
+                >
+                  {patientIds.map((id) => (
+                    <MenuItem key={id} value={id}>
+                      {id}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 2 }}>
+                <InputLabel>Patient Name (from Users)</InputLabel>
+                <Select
+                  value={patientForm.name}
+                  onChange={(e) => setPatientForm({ ...patientForm, name: e.target.value })}
+                  required
+                >
+                  {patientNames.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <Button type="submit" variant="contained" fullWidth>
                 Register Patient
               </Button>
@@ -222,29 +267,29 @@ function AdminDashboard() {
             </Box>
             <form onSubmit={handleAssignCaregiver}>
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel>Patient</InputLabel>
+                <InputLabel>Patient Name</InputLabel>
                 <Select
                   value={assignForm.patient_id}
                   onChange={(e) => setAssignForm({ ...assignForm, patient_id: e.target.value })}
                   required
                 >
-                  {patients.map((p) => (
-                    <MenuItem key={p.id} value={p.patient_id}>
-                      {p.patient_id} - {p.name}
+                  {patientNames.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel>Caregiver</InputLabel>
+                <InputLabel>Caregiver Name</InputLabel>
                 <Select
                   value={assignForm.caregiver_id}
                   onChange={(e) => setAssignForm({ ...assignForm, caregiver_id: e.target.value })}
                   required
                 >
-                  {caregivers.map((c) => (
-                    <MenuItem key={c.id} value={c.caregiver_id}>
-                      {c.caregiver_id} - {c.name}
+                  {caregiverNames.map((name) => (
+                    <MenuItem key={name} value={name}>
+                      {name}
                     </MenuItem>
                   ))}
                 </Select>
